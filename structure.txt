@@ -1,0 +1,18 @@
+App Structure
+
+APP DESCRIPTION: PersonalLibrary is an app which helps you manage your read or to-read books, edit your wishlist,
+and other cool stuff for reading books advocates.
+
+1. Routes Structure
+    a. /
+    b. /wishlist
+        /add
+        /edit
+    c. /my-books
+        /read
+        /to-read
+    d. /account
+    e. /dashboard
+
+2. Backend Routes
+    ...
