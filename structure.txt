@@ -16,3 +16,6 @@ and other cool stuff for reading books advocates.
 
 2. Backend Routes
     ...
+
+
+3. Google Books API integration (users can load their books into the app and manage their books from there)

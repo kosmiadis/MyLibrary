@@ -22,17 +22,17 @@ export default {
         secondaryFont: ['Roboto', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        activeForeground: '#1A2A36', //gunmetal (to dark blue with grey)
-        primaryForeground: '#2C3E50', //charcoal (to dark blue)
-        secondaryForeground: '#3C4A57', //charcoal (to grey)
-        primaryBackground: '#191308', //alice blue
-        secondaryBackground: '#C8D6E5', //columbian blue
-        accent: '#8395A7', //cadet-grey for buttons, highlights...etc.
+        primaryForeground: '#323234', //jet to dark grey
+        secondaryForeground: 'white', 
+        primaryBackground: '#502613', 
+        secondaryBackground: '#FDE8E9',
+        
+        hoverForeground: '#DD5B2C', //flame
+        activeForeground: '#ec663e', //to pale orange
+        accent: '#ec663e', //to pale orange
       }
     },
   },
-  plugins: [
-    tailwindAnimate,
-  ],
+  plugins: [],
 }
 

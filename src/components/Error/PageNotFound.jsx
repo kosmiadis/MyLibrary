@@ -1,14 +1,14 @@
-import Header from "../Header/Header"
-import PageContent from '../../UI/PageContent';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 import Button from '../../UI/Button';
+import { pageNotFoundVariants } from '../../animations/animatePageNotFound';
 
 export default function PageNotFound () {
 
     const navigate = useNavigate()
-    const [ timeLeftBeforeRedirect, setTimeLeftBeforeRedirect ] = useState(5000);
+    const timeBeforeRedirect = 3000
+    const [ timeLeftBeforeRedirect, setTimeLeftBeforeRedirect ] = useState(timeBeforeRedirect);
 
     useEffect(() => {
         //countdown before user redirected to /my-books (home)
@@ -34,28 +34,15 @@ export default function PageNotFound () {
         }
     },)
 
-    /* animations */
-    const shown = {
-        y: 0,
-        opacity: 1   
-    }
-    const hidden = {
-        y: '-20px',
-        opacity: 0
-    }
-
     function handleRedirectButtonClick () {
         navigate('/');
     }
 
     return <>
-        <Header />
-        <PageContent>
-            <div className="text-center mt-[100px]">
-                <motion.h1 initial={hidden} animate={shown} transition={{ delay: 0.2 }} className="text-3xl">Oops! Page not found.</motion.h1>
-                <motion.p initial={hidden} animate={shown} transition={{ delay: 0.5 }} className="text-xl mt-[4px]">You will be automatically redirected in <span className="font-bold">{timeLeftBeforeRedirect / 1000}</span></motion.p>
-                <motion.div initial={hidden} animate={shown} transition={{ delay: 0.5 }}><Button classes={'px-[8px] py-[6px] text-lg rounded-md font-semibold mt-[15px]'} action={handleRedirectButtonClick} >Redirect Now</Button></motion.div>
-            </div>
-        </PageContent>
+        <div className="text-center mt-[100px] mx-auto">
+            <motion.h1 variants={pageNotFoundVariants} initial={'hidden'} animate={'shown'} transition={{ delay: 0.2 }} className="mx-auto text-3xl">Oops! Page not found.</motion.h1>
+            <motion.p variants={pageNotFoundVariants} initial={'hidden'} animate={'shown'} transition={{ delay: 0.5 }} className="mx-auto text-xl mt-[4px]">You will be automatically redirected in <span className="font-bold">{timeLeftBeforeRedirect / 1000}</span></motion.p>
+            <motion.div variants={pageNotFoundVariants} initial={'hidden'} animate={'shown'} transition={{ delay: 0.5 }}><Button classes={'mx-auto px-[8px] py-[6px] text-lg rounded-md font-semibold mt-[15px]'} action={handleRedirectButtonClick} >Redirect Now</Button></motion.div>
+        </div>
     </>
 }

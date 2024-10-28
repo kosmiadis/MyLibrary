@@ -21,7 +21,7 @@ const useScreenSize = () => {
     };
   }, []);
 
-  return screenSize;
+  return screenSize.width;
 };
 
 export default useScreenSize;

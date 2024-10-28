@@ -1,6 +1,7 @@
+import useScreenSize from "../../hooks/useScreenSize";
 import NavigationLink from "./NavigationLink"
 
-export default function LinksList ({ links, isMobile, setIsMenuOpen }) {
+export default function LinksList ({ links, verticalPlacement, isMobile, setIsMenuOpen }) {
 
     /*
         this ensures that the mobile navigation menu closes after
@@ -8,14 +9,14 @@ export default function LinksList ({ links, isMobile, setIsMenuOpen }) {
     */
     function handleLinkClick () {
         if (isMobile) {
-            setIsMenuOpen(false);
+            setIsMenuOpen(false);            
         }
     }
 
-    return <nav className={isMobile ? 'pl-[14px] mt-[1rem]' : ''}>
-        <ul className={isMobile ? 'flex flex-col gap-3' : 'flex gap-3'}>
+    return <nav className={(isMobile ? 'pl-[14px] mt-[30px]' : '')}>
+        <ul className={isMobile || verticalPlacement ? 'flex flex-col gap-3' : 'flex gap-3'}>
             {links && links.map(l => (
-                <li key={l.id} ><NavigationLink handleClick={handleLinkClick} to={l.to}>{l.text}</NavigationLink></li>
+                <li key={l.id}><NavigationLink handleClick={handleLinkClick} to={l.to}>{l.text}</NavigationLink></li>
             ))}
         </ul>
     </nav>

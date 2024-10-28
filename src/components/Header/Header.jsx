@@ -1,7 +1,7 @@
-import { NavLink } from 'react-router-dom';
 import useScreenSize from '../../hooks/useScreenSize';
-import MobileHeader from '../Header/MobileHeader';
+import MobileHeader from './MobileHeader';
 import DesktopHeader from './DesktopHeader';
+import Logo from './Logo';
 
 const links = [
     {id: 1, to: '/my-books', text: 'MyBooks'},
@@ -12,14 +12,12 @@ const links = [
 export default function Header () {
 
     //to check if the screen dimension is mobile or bigger.
-    const screenSize = useScreenSize();
+    const screenWidth = useScreenSize();
+    let headerClasses = screenWidth < 976 ? 'justify-between p-[2rem] max-w-[1200px] sticky top-0 sm:bg-secondaryBackground md:secondaryBackground z-50' : ''
 
-    return <header className="flex justify-between p-[2rem] max-w-[1200px] mx-auto">
-
-            <div className=''>
-                <NavLink to='/' className={'transition-colors text-2xl text-secondaryForeground font-bold font-specialFont'}>MyLibrary📚</NavLink>
-            </div>
-            {screenSize.width <= 569 && <MobileHeader links={links}/>}
-            {screenSize.width > 569 && <DesktopHeader links={links}/>}
+    return <header className={'flex ' + headerClasses}>
+            {screenWidth < 976 && <Logo />}
+            {screenWidth <= 569 && <MobileHeader links={links}/>}
+            {screenWidth > 569 && <DesktopHeader links={links}/>}
     </header>
 }
