@@ -1,5 +1,5 @@
+
 import defaultTheme from 'tailwindcss/defaultTheme';
-import tailwindAnimate from 'tailwindcss-animate';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -26,13 +26,14 @@ export default {
         secondaryForeground: 'white', 
         primaryBackground: '#502613', 
         secondaryBackground: '#FDE8E9',
-        
-        hoverForeground: '#DD5B2C', //flame
-        activeForeground: '#ec663e', //to pale orange
-        accent: '#ec663e', //to pale orange
+        pageContentBackground: '#D9E5FA',
+
+        hoverForeground: '#7A94E8', //flame
+        activeForeground: '#5E7CE2', //to pale orange
+        /**accent: '#5E7CE2', //to pale orange*/
+        accent: '#7A94E8',
       }
     },
   },
-  plugins: [],
 }
 

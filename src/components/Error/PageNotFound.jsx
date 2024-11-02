@@ -25,7 +25,7 @@ export default function PageNotFound () {
     useEffect(() => {
         //redirects user to /my-books (home) when time elapsed
         const redirectTimeout = setTimeout(() => {
-            return navigate('/');
+            return navigate('/my-books');
         }, timeLeftBeforeRedirect)
 
         //cleanout redirection function in case user click any other link before redirecting.

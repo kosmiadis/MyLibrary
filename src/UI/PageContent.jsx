@@ -1,8 +1,10 @@
+import { motion } from 'framer-motion';
+
 export default function PageContent ({ screenWidth, children }) {
 
-    let classes = screenWidth > 976 ? 'p-4' : 'p-2';
+    let classes = screenWidth > 976 ? 'p-4 ' : 'p-2 ';
 
-    return <main className={classes}>
+    return <motion.main className={classes}>
         {children}
-    </main>
+    </motion.main>
 }

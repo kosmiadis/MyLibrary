@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
-import { bookAnimateVariants } from '../animations/animateBooks';
+import { bookAnimateVariants } from '../../animations/animateBooks';
 import { useNavigate } from 'react-router-dom';
-
 
 export default function Book ({ book }) {
     const { id, img, author, personalRating } = book;

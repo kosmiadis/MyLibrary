@@ -8,7 +8,9 @@ function ModalChild ({ childen }) {
 }
 
 export default function Modal ({title, children}) {
-    return createPortal(<motion.dialog open>
+    return createPortal(<>
+        <div className=''></div>
+        <motion.dialog open>
         <Button>
             <img width='24px' src={closeIcon} alt="close icon" />
         </Button>
@@ -18,5 +20,5 @@ export default function Modal ({title, children}) {
                 <ModalChild key={child}>{child}</ModalChild>
             ))
         }}
-    </motion.dialog>, document.getElementById('modal'))
+    </motion.dialog></>, document.getElementById('modal'))
 }

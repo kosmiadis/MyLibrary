@@ -7,15 +7,15 @@ import useScreenSize from "../hooks/useScreenSize";
 export default function CoreLayout ({ children }) {
 
     const screenWidth = useScreenSize();
-    let classes = ' min-h-screen p-0';
+    let classes = ' min-h-screen p-0 ';
     let sideNavigationBarShouldDisplay = screenWidth > 976
 
     return <div className={sideNavigationBarShouldDisplay ? 'flex' + classes : 'initial' + classes}>
-        <Header />
-        <PageContent screenWidth={screenWidth}>
-            {children && children}
-            {!children && <Outlet />}
-        </PageContent>
+            <Header />
+            <PageContent screenWidth={screenWidth}>
+                {children && children}
+                {!children && <Outlet />}
+            </PageContent>
         {/*<Footer />*/}
     </div>
 }
