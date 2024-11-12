@@ -1,5 +1,10 @@
+import { useBooks } from "../hooks/useBooks"
+
 export default function Dashboard () {
+    
+    const { totalMoneySpent } = useBooks();
+    
     return <>
-        <h1>Dashboard</h1>
+        <p>Total Money Spent {totalMoneySpent}</p>
     </>
 }

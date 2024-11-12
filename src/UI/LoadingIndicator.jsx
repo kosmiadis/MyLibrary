@@ -1,6 +1,6 @@
-import { useLoadingAnimation } from "../hooks/useLoadingAnimation";
+import { useLoadingAnimation } from '../animationHooks/useLoadingAnimation';
 
-export default function LoadingSpinner({text='Loading'}) {
+export default function LoadingIndicator ({text='Loading'}) {
 
     const scope = useLoadingAnimation();
 
