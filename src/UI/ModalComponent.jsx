@@ -11,13 +11,13 @@ export default function ModalComponent ({isOpen, onClose, onOpenChange}) {
 
     const isReadRef = useRef();
 
-    const { data: response, isPending, isError, mutate, error } = useMutation({
+    const { isPending, isError, mutate, error } = useMutation({
       mutationFn: (newBook) => addBook(newBook),
       onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['books'] });
           onClose();  
-      }
-    });
+      },
+      });
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,13 +39,18 @@ export default function ModalComponent ({isOpen, onClose, onOpenChange}) {
           closeButton: "hover:bg-white/5 active:bg-white/10",
         }}
       >
-        <ModalContent>
+        <ModalContent className={isPending ? 'px-4': ''}>
           {(onClose) => (
             <>
                 {isPending && <LoadingIndicator text='Adding Book'/>}
                 {!isPending && <>
                     <ModalHeader className="flex flex-col gap-1 font-specialFont font-bold text-xl text-accent">Add Book
-                      {isError && <p className="text-red-600 text-sm font-specialFont">Book was not added</p>}
+                      {isError && error?.length > 0 && (
+                        error.map(e => (
+                            <p key={e.errMessage} className="text-red-600 text-sm font-specialFont">{e.errMessage}</p>
+                        ))
+                      )}
+                      { isError && <p className="text-red-600 text-sm font-specialFont">{error.message}</p>}
                     </ModalHeader>
                     <ModalBody>
                       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -64,7 +69,6 @@ export default function ModalComponent ({isOpen, onClose, onOpenChange}) {
                                   Add
                               </Button>
                           </div>
-
                       </form>
                     </ModalBody>
                 </>}

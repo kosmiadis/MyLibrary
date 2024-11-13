@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 export default function BooksList ({ onlyReadBooks }) {
 
     const { data, isPending, isError } = useFetchBooks(onlyReadBooks);
-    const { setTotalBooks, calculateTotalMoneySpent, totalMoneySpent } = useBooks();
+    const { setTotalBooks, calculateTotalMoneySpent } = useBooks();
 
     const books = data?.books;
 

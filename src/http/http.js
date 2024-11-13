@@ -39,7 +39,8 @@ export async function addBook(book) {
         body: JSON.stringify({ book })
     });
     if (!res.ok) {
-        throw new Error('Could not add book.')
+        const response = await res.json();
+        throw response;
     }
     const data = await res.json();
     return data;
