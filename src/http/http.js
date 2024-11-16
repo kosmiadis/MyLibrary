@@ -45,3 +45,38 @@ export async function addBook(book) {
     const data = await res.json();
     return data;
 }
+
+export async function deleteBook(bookId) {
+    let url = 'http://localhost:5000/books/delete-book';
+    const res = await fetch(url, { 
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: bookId })
+    });
+    if (!res.ok) {
+        const message = 'Something went wrong! Could not delete book.'
+        throw message;
+    }
+    const { message } = await res.json();
+    return message;
+}
+
+export async function updateBook(id, updatedBook) {
+
+    let url = 'http://localhost:5000/books/update-book';
+    const res = await fetch(url, { 
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ book: {...updatedBook, id} })
+    });
+    if (!res.ok) {
+        const errorMessages = await res.json(); 
+        throw errorMessages;
+    }
+    const { message } = await res.json();
+    return message;
+}

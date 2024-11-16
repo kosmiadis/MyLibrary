@@ -2,29 +2,41 @@ import { Modal, ModalContent, Input,ModalHeader, ModalBody, Checkbox } from "@ne
 import Button from '../UI/Button';
 import { createPortal } from "react-dom";
 import LoadingIndicator from "./LoadingIndicator";
-import { useMutation } from "@tanstack/react-query";
-import { addBook } from "../http/http";
-import { queryClient } from "../http/http";
-import { useRef } from "react";
 
-export default function ModalComponent ({isOpen, onClose, onOpenChange}) {
+import { useRef, useState } from "react";
+import { saveFormData, getFormData } from "../util/storeFormData.js";
+
+export default function ModalComponent ({ mutationObj, startingValues, formTitle, loadingText, submitBtnText, isOpen, onClose, onOpenChange }) {
+
+  const [ title, setTitle ] = useState(startingValues? startingValues.title : JSON.parse(getFormData())?.title || '');
+  const [ author, setAuthor ] = useState(startingValues? startingValues.author : JSON.parse(getFormData())?.author || '');
+  const [ description, setDescription ] = useState(startingValues? startingValues.description : JSON.parse(getFormData())?.description || '');
+  const [ personalRating, setPersonalRating ] = useState(startingValues? startingValues.personalRating : JSON.parse(getFormData())?.personal_rating || 0);
+  const [ price, setPrice ] = useState(startingValues? startingValues.price : JSON.parse(getFormData())?.price || 0);
+  const [ imgUrl, setImgUrl ] = useState(startingValues? startingValues.imgUrl : JSON.parse(getFormData())?.img_url || '');
+  const [ isRead, setIsRead ] = useState(startingValues? startingValues.isRead : JSON.parse(getFormData())?.isRead || false);
 
     const isReadRef = useRef();
-
-    const { isPending, isError, mutate, error } = useMutation({
-      mutationFn: (newBook) => addBook(newBook),
-      onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['books'] });
-          onClose();  
-      },
-      });
     
-    const handleSubmit = (e) => {
+    const { isPending, isError, mutate, message } = mutationObj;
+    
+    function handleSubmit (e) {
         e.preventDefault();
         const formData = new FormData(e.target)
         const newBook = Object.fromEntries(formData);
         newBook.isRead = isReadRef.current.checked;
+        saveFormData(newBook);
         mutate(newBook)
+    }
+
+    function clearFields () {
+      setTitle('');
+      setAuthor('');
+      setDescription('');
+      setPersonalRating(0);
+      setPrice(0);
+      setImgUrl('');
+      setTitle('');
     }
 
     return createPortal(<>
@@ -42,31 +54,32 @@ export default function ModalComponent ({isOpen, onClose, onOpenChange}) {
         <ModalContent className={isPending ? 'px-4': ''}>
           {(onClose) => (
             <>
-                {isPending && <LoadingIndicator text='Adding Book'/>}
+                {isPending && <LoadingIndicator text={loadingText}/>}
                 {!isPending && <>
-                    <ModalHeader className="flex flex-col gap-1 font-specialFont font-bold text-xl text-accent">Add Book
-                      {isError && error?.length > 0 && (
-                        error.map(e => (
+                    <ModalHeader className="flex flex-col gap-1 font-specialFont font-bold text-xl text-accent">
+                      {formTitle}
+                      { isError && message?.err && ( message?.msg.map(e => (
                             <p key={e.errMessage} className="text-red-600 text-sm font-specialFont">{e.errMessage}</p>
-                        ))
-                      )}
-                      { isError && <p className="text-red-600 text-sm font-specialFont">{error.message}</p>}
+                      )))}
                     </ModalHeader>
                     <ModalBody>
-                      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                          <Input size='lg' label="Title" name='title' className="text-accent" variant='flat' />
-                          <Input size='lg' label="Author" name='author' className="text-accent" variant='flat' />
-                          <Input size='lg' label="Description" name='description' className="text-accent" variant='flat' />
-                          <Input size='lg' type='number' label="Personal Rating" name='personal_rating' className="text-accent" variant='flat' />
-                          <Input size='lg' type='number' label="Price" name='price' className="text-accent" variant='flat' />
-                          <Input size='lg' label="Img Link" name='img_url' className="text-accent" variant='flat' />
-                          <Checkbox ref={isReadRef}>I have read it.</Checkbox>
+                      <form onSubmit={handleSubmit} className="flex flex-col gap-4" defaultValue={saveFormData}>
+                          <Input size='lg' label="Title" name='title' value={title} onChange={(e) => setTitle(e.target.value)} className="text-accent" variant='flat' />
+                          <Input size='lg' label="Author" name='author' value={author} onChange={(e) => setAuthor(e.target.value)} className="text-accent" variant='flat' />
+                          <Input size='lg' label="Description" name='description' onChange={(e) => setDescription(e.target.value)} value={description}  />
+                          <Input size='lg' type='number' step="0.01" label="Personal Rating" min={0} max={10} name='personal_rating' value={personalRating} onChange={(e) => setPersonalRating(e.target.value)}  className="text-accent" variant='flat' />
+                          <Input size='lg' type='number' step="0.01" label="Price" name='price' min={0} max={500} value={price} onChange={(e) => setPrice(e.target.value)} className="text-accent" variant='flat' />
+                          <Input size='lg' label="Img Link" name='img_url' value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} className="text-accent" variant='flat' />
+                          <Checkbox ref={isReadRef} defaultSelected={isRead} onChange={(e) => setIsRead(e.target.checked)}>I have read it.</Checkbox>
                           <div className="flex gap-2 justify-end">
-                              <Button color="foreground" variant="light" action={onClose}>
+                              <Button type='button' color="danger" onClick={() => {
+                                  clearFields();
+                                  onClose();
+                                }}>
                                 Close
                               </Button>
-                              <Button action={() => {}}>
-                                  Add
+                              <Button onClick={() => {}}>
+                                {submitBtnText}
                               </Button>
                           </div>
                       </form>

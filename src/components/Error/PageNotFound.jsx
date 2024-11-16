@@ -42,7 +42,7 @@ export default function PageNotFound () {
         <div className="text-center mt-[100px] mx-auto">
             <motion.h1 variants={pageNotFoundVariants} initial={'hidden'} animate={'shown'} transition={{ delay: 0.2 }} className="mx-auto text-3xl">Oops! Page not found.</motion.h1>
             <motion.p variants={pageNotFoundVariants} initial={'hidden'} animate={'shown'} transition={{ delay: 0.5 }} className="mx-auto text-xl mt-[4px]">You will be automatically redirected in <span className="font-bold">{timeLeftBeforeRedirect / 1000}</span></motion.p>
-            <motion.div variants={pageNotFoundVariants} initial={'hidden'} animate={'shown'} transition={{ delay: 0.5 }}><Button classes={'mx-auto px-[8px] py-[6px] text-lg rounded-md font-semibold mt-[15px]'} action={handleRedirectButtonClick} >Redirect Now</Button></motion.div>
+            <motion.div variants={pageNotFoundVariants} initial={'hidden'} animate={'shown'} transition={{ delay: 0.5 }}><Button classes={'mx-auto px-[8px] py-[6px] text-lg rounded-md font-semibold mt-[15px]'} onClick={handleRedirectButtonClick}> Redirect Now </Button></motion.div>
         </div>
     </>
 }

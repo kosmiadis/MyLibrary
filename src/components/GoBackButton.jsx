@@ -7,7 +7,7 @@ export default function GoBackButton () {
     const navigate = useNavigate();
 
     function handleAction () {
-        navigate('../')
+        navigate('../');
     }
 
     const goBackButtonVariants = {
@@ -26,7 +26,7 @@ export default function GoBackButton () {
     }
 
     return <motion.div className='' initial={'initial'} animate={"show"} variants={goBackButtonVariants} transition={transitionValues}>
-        <Button action={handleAction}>
+        <Button onClick={handleAction}>
             Go Back 
         </Button>
     </motion.div>

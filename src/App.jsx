@@ -17,17 +17,17 @@ const router = createBrowserRouter([
     {path: '', element: <Navigate to='/my-books'/>},
     {path: 'my-books', element: <MyBooksLayout />, children: [
       {path: '', element: <MyBooks />},
-      {path: 'book/:id', element: <BookDetailsPage />},
+      {path: ':id', element: <BookDetailsPage />},
     ]},
     {path: 'wishlist', element: <WishList />},
     {path: 'dashboard', element: <Dashboard />},
   ], errorElement: <CoreLayout><PageNotFound /></CoreLayout>}
-])
+]);
 
 function App() {
 
   useEffect(() => {
-    document.body.style.overflowX = 'hidden';
+    document.body.style.overflowX = 'hidden'
   })
   
   return (

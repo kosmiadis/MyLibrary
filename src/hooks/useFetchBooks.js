@@ -5,6 +5,7 @@ export function useFetchBooks(onlyReadBooks) {
     const { data, isPending, isError, error } = useQuery({
         queryKey: ['books'],
         queryFn: ({signal}) => fetchBooks(signal, onlyReadBooks),
+        retry: 2,
     });
     return { data, isPending, isError, error };
 }

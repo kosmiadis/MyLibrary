@@ -32,10 +32,10 @@ export default function BooksList ({ onlyReadBooks }) {
             className='flex flex-wrap justify-center gap-[50px] max-w-[1250px] m-auto'
         >   
             { isPending && <LoadindIndicator text='Loading Books'/>}
-            { isError && <p className='text-xl font-semibold'>Could not load books!</p>}
-            { books === null && <p>Something went wrong! Please try again later.</p>}
-            { books?.length === 0 && <p className='text-xl font-semibold'>There are no books!</p>}
-            { books?.length > 0 && books?.map(book => (
+            { isError && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">Could not load books!</p>}
+            { !isPending && books === null && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">Something went wrong! Please try again later.</p>}
+            { !isPending && books?.length === 0 && <p className='m-auto text-lg font-semibold font-specialFont'>There are no books!</p>}
+            { !isPending && books?.length > 0 && books?.map(book => (
                 <motion.li key={book._id} variants={bookVariants}>
                     <Book book={book}/>
                 </motion.li>
