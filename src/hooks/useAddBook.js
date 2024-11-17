@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { addBook, queryClient } from "../http/http";
 import { useNavigate } from "react-router-dom";
-import { deleteFormData } from "../util/storeFormData";
 
 export function useAddBook(onClose) {
     const [ message, setMessage ] = useState(null);
@@ -14,7 +13,6 @@ export function useAddBook(onClose) {
             setMessage({ err: false, msg: message });
             navigate('../');
             queryClient.invalidateQueries({ queryKey: ['books'] });
-            deleteFormData();
             onClose();
         },
         onError: (message) => {

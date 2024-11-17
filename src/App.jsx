@@ -11,6 +11,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './http/http';
 import { NextUIProvider } from "@nextui-org/react";
 import BooksContext from '../contexts/BooksContext';
+import FormDataContext from '../contexts/FormDataContext';
 
 const router = createBrowserRouter([
   {path: '/', element: <CoreLayout />, children: [
@@ -34,7 +35,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
         <BooksContext>
           <NextUIProvider>
-            <RouterProvider router={router}/>
+            <FormDataContext>
+              <RouterProvider router={router}/>
+            </FormDataContext>
           </NextUIProvider>
         </BooksContext>
     </QueryClientProvider>

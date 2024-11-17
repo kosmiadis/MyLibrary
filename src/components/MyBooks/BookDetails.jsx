@@ -7,12 +7,14 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@nextui-org/react';
 import UpdateBook from '../UpdateBook';
+import { useFormData } from '../../hooks/useFormData';
 
 export default function BookDetails ({ book }) {
 
     const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
     const {  _id ,title, author, imgUrl, description, price, personalRating, isRead } = book;
+    const { setValues } = useFormData();
 
     const screenWidth = useScreenSize();
     const { mutate, isPending, isError, message } = useDeleteBook();
@@ -75,7 +77,18 @@ export default function BookDetails ({ book }) {
                     <p className='my-auto text-xl font-semibold font-specialFont'>{price}€</p>
                     <p className=''>{personalRating}⭐</p>
                     <div className='ml-2 flex gap-2'>
-                        <Button onClick={onOpen}>Edit Book</Button>
+                        <Button onClick={() => {
+                            setValues({
+                                title,
+                                author,
+                                description,
+                                imgUrl,
+                                personalRating,
+                                price,
+                                isRead
+                            })
+                            onOpen()
+                            }}>Edit Book</Button>
                         <Button color={'danger'} onClick={handleDelete}>Delete Book</Button>
                     </div>
                 </div>

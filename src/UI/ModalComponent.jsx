@@ -2,22 +2,17 @@ import { Modal, ModalContent, Input,ModalHeader, ModalBody, Checkbox } from "@ne
 import Button from '../UI/Button';
 import { createPortal } from "react-dom";
 import LoadingIndicator from "./LoadingIndicator";
+import { useRef } from "react";
+import { useFormData } from '../hooks/useFormData.js';
 
-import { useRef, useState } from "react";
-import { saveFormData, getFormData } from "../util/storeFormData.js";
 
-export default function ModalComponent ({ mutationObj, startingValues, formTitle, loadingText, submitBtnText, isOpen, onClose, onOpenChange }) {
-
-  const [ title, setTitle ] = useState(startingValues? startingValues.title : JSON.parse(getFormData())?.title || '');
-  const [ author, setAuthor ] = useState(startingValues? startingValues.author : JSON.parse(getFormData())?.author || '');
-  const [ description, setDescription ] = useState(startingValues? startingValues.description : JSON.parse(getFormData())?.description || '');
-  const [ personalRating, setPersonalRating ] = useState(startingValues? startingValues.personalRating : JSON.parse(getFormData())?.personal_rating || 0);
-  const [ price, setPrice ] = useState(startingValues? startingValues.price : JSON.parse(getFormData())?.price || 0);
-  const [ imgUrl, setImgUrl ] = useState(startingValues? startingValues.imgUrl : JSON.parse(getFormData())?.img_url || '');
-  const [ isRead, setIsRead ] = useState(startingValues? startingValues.isRead : JSON.parse(getFormData())?.isRead || false);
+export default function ModalComponent ({ mutationObj, formTitle, loadingText, submitBtnText, isOpen, onOpenChange }) {
 
     const isReadRef = useRef();
-    
+    const { title, author, description, personalRating, price, imgUrl, isRead,
+        setTitle, setAuthor, setDescription, setPersonalRating, setPrice, setImgUrl, setIsRead,
+        setValues
+      } = useFormData();
     const { isPending, isError, mutate, message } = mutationObj;
     
     function handleSubmit (e) {
@@ -25,18 +20,20 @@ export default function ModalComponent ({ mutationObj, startingValues, formTitle
         const formData = new FormData(e.target)
         const newBook = Object.fromEntries(formData);
         newBook.isRead = isReadRef.current.checked;
-        saveFormData(newBook);
+        //save fields to context
         mutate(newBook)
     }
 
     function clearFields () {
-      setTitle('');
-      setAuthor('');
-      setDescription('');
-      setPersonalRating(0);
-      setPrice(0);
-      setImgUrl('');
-      setTitle('');
+      setValues({ 
+        title: '',
+        description: '',
+        author: '',
+        personalRating: 0,
+        price: 0,
+        imgUrl: '',
+        isRead: false
+      })
     }
 
     return createPortal(<>
@@ -63,7 +60,7 @@ export default function ModalComponent ({ mutationObj, startingValues, formTitle
                       )))}
                     </ModalHeader>
                     <ModalBody>
-                      <form onSubmit={handleSubmit} className="flex flex-col gap-4" defaultValue={saveFormData}>
+                      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                           <Input size='lg' label="Title" name='title' value={title} onChange={(e) => setTitle(e.target.value)} className="text-accent" variant='flat' />
                           <Input size='lg' label="Author" name='author' value={author} onChange={(e) => setAuthor(e.target.value)} className="text-accent" variant='flat' />
                           <Input size='lg' label="Description" name='description' onChange={(e) => setDescription(e.target.value)} value={description}  />

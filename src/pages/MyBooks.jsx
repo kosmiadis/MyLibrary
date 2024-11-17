@@ -3,6 +3,8 @@ import Button from "../UI/Button";
 import { useDisclosure } from "@nextui-org/react";
 import { useBooks } from '../hooks/useBooks.js';
 import AddBooks from "../components/AddBooks.jsx";
+import { useEffect } from "react";
+import { useFormData } from "../hooks/useFormData.js";
 
 export default function MyBooks () {
 
@@ -10,6 +12,24 @@ export default function MyBooks () {
     //list of books that i have in my possesion.
     const { isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
     const { totalBooks, totalMoneySpent } = useBooks();
+    const { setValues } = useFormData();
+
+    /*
+        delete form's fields values when component loads (starting screen) so
+        that the add book modal form is clear
+    */
+    useEffect(() => {
+        setValues({ 
+            title: '',
+            description: '',
+            author: '',
+            personalRating: 0,
+            price: 0,
+            imgUrl: '',
+            isRead: false
+          })
+    })
+
 
     return <div className="p-4 w-full">
         <div className="flex sm:justify-between md:gap-4 mb-[50px]">
