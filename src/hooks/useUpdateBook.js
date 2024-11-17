@@ -11,7 +11,7 @@ export function useUpdateBook(id) {
         mutationFn: (updatedBook) => updateBook(id, updatedBook),
         onSuccess: (message) => {
             setMessage({ err: false, msg: message });
-            navigate('../');
+            navigate('..');
             queryClient.invalidateQueries({queryKey: ['books']});
         },
         onError: (message) => {

@@ -11,13 +11,12 @@ export function useAddBook(onClose) {
         mutationFn: (newBook) => addBook(newBook),
         onSuccess: (message) => {
             setMessage({ err: false, msg: message });
-            navigate('../');
+            navigate('..');
             queryClient.invalidateQueries({ queryKey: ['books'] });
             onClose();
         },
         onError: (message) => {
             setMessage({ err: true, msg: message })
-            
         },
         retry: 1
     });

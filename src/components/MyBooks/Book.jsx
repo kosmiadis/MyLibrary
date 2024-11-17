@@ -8,7 +8,12 @@ export default function Book ({ book }) {
     const navigate = useNavigate();
 
     function handleBookClick () {
-        navigate(`/my-books/${_id}`)
+        if (location.pathname === '/my-books') {
+            navigate(`/my-books/${_id}`)
+        }
+        else if (location.pathname === '/wishlist') {
+            navigate(`/wishlist/${_id}`)
+        }
     }
 
     return <motion.button onClick={handleBookClick} variants={bookAnimateVariants} whileHover={'hovered'} className='w-[150px] mx-auto' >

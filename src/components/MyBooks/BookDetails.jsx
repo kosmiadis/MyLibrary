@@ -14,6 +14,7 @@ export default function BookDetails ({ book }) {
     const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
     const {  _id ,title, author, imgUrl, description, price, personalRating, isRead } = book;
+    
     const { setValues } = useFormData();
 
     const screenWidth = useScreenSize();

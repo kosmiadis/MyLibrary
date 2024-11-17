@@ -7,7 +7,12 @@ export default function GoBackButton () {
     const navigate = useNavigate();
 
     function handleAction () {
-        navigate('../');
+        if (location.pathname.includes('/my-books')) {
+            navigate('/my-books');
+        }
+        else if (location.pathname.includes('/wishlist')) {
+            navigate('/wishlist');
+        }
     }
 
     const goBackButtonVariants = {

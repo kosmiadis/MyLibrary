@@ -28,8 +28,7 @@ export default function MyBooks () {
             imgUrl: '',
             isRead: false
           })
-    })
-
+    }, [])
 
     return <div className="p-4 w-full">
         <div className="flex sm:justify-between md:gap-4 mb-[50px]">
