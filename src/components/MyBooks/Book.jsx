@@ -17,10 +17,7 @@ export default function Book ({ book }) {
     }
 
     return <motion.button onClick={handleBookClick} variants={bookAnimateVariants} whileHover={'hovered'} className='w-[150px] mx-auto' >
-        <img src={imgUrl} className='w-[150px]' alt="book_cover" style={{
-        boxShadow: '10px 5px 5px rgb(0, 0, 0, 0.2)',
-        minHeight: '180px'
-    }}/>
+        <img src={imgUrl} className='w-[150px]' alt="book_cover" />
         <p className='font-bold mt-2'>{author}</p><span>{personalRating} ⭐</span>
     </motion.button>
 }

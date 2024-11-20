@@ -3,27 +3,34 @@ import Book from './Book';
 import { booksListVariants, bookVariants } from '../../animations/animateBooks';
 import { useFetchBooks } from '../../hooks/useFetchBooks';
 import LoadindIndicator from '../../UI/LoadingIndicator';
-import { useBooks } from '../../hooks/useBooks';
+import { useDispatch } from 'react-redux'
+import { updateMyBooks } from '../../store/books/myBooksSlice.js';
+import { updateWishlist } from '../../store/books/wishlist.js';
 import { useEffect } from 'react';
 
 export default function BooksList ({ onlyReadBooks }) {
 
     const { data, isPending, isError } = useFetchBooks(onlyReadBooks);
-    const { setTotalBooks, calculateTotalMoneySpent } = useBooks();
+    const dispatch = useDispatch();
 
     const books = data?.books;
 
-    // Update total books only when books change
+    // Update total books only when books change <-- add later!
     useEffect(() => {
         if (books) {
-            calculateTotalMoneySpent(books);
-            setTotalBooks(books.length);
+            if (onlyReadBooks) {
+                dispatch(updateMyBooks({ books }),)
+            }
+            else {
+                dispatch(updateWishlist({ books }),)
+            }
         }
-    }, [books, setTotalBooks, calculateTotalMoneySpent]);
+    }, [books])
     
     return <>
     {   /*add filters to sort books like author, price, personal rating etc. */}
     {/*add global context for books */}
+        <p>Filter by</p>
         {books?.length > 0 && <span className='text-md font-semibold'></span>}
         <motion.ul 
             variants={booksListVariants}

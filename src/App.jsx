@@ -10,8 +10,7 @@ import MyBooksLayout from './Layouts/MyBooksLayout';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './http/http';
 import { NextUIProvider } from "@nextui-org/react";
-import BooksContext from '../contexts/BooksContext';
-import FormDataContext from '../contexts/FormDataContext';
+import FormDataContext from './contexts/FormDataContext';
 import WishlistLayout from './Layouts/WishlistLayout';
 
 const router = createBrowserRouter([
@@ -37,15 +36,13 @@ function App() {
   
   return (
     <QueryClientProvider client={queryClient}>
-        <BooksContext>
           <NextUIProvider>
             <FormDataContext>
               <RouterProvider router={router}/>
             </FormDataContext>
           </NextUIProvider>
-        </BooksContext>
     </QueryClientProvider>
   )
-}
+};
 
 export default App

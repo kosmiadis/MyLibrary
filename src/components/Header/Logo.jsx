@@ -6,15 +6,13 @@ export default function Logo () {
   const screenWidth = useScreenSize();
 
   let classes;
-  if (screenWidth >= 976) {
+  if (screenWidth >= 976) { 
     classes = 'text-3xl text-secondaryForeground hover:text-primaryForeground'
   }
   else {
     classes = 'text-2xl text-primaryForeground hover:text-accent';
   }
-  
-
-    return <div className=''>
-        <NavLink to='/' className={'transition-colors  font-bold font-specialFont ' + classes}>MyLibrary📚</NavLink>
+    return <div className={screenWidth >= 976 ? 'sticky top-[50px]' : undefined }>
+        <NavLink to='/' className={'transition-colors font-bold font-specialFont ' + classes}>MyLibrary📚</NavLink>
     </div>
 }

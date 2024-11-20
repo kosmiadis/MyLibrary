@@ -12,8 +12,8 @@ export default function LinksList ({ links, verticalPlacement, isMobile, setIsMe
         }
     }
 
-    return <nav className={(isMobile ? 'pl-[14px] mt-[30px]' : '')}>
-        <ul className={isMobile || verticalPlacement ? 'flex flex-col gap-3 fixed' : 'flex gap-3'}>
+    return <nav className={(isMobile ? 'initial top-[unset] pl-[14px] mt-[30px]' : 'sticky top-[120px]')}>
+        <ul className={isMobile || verticalPlacement ? 'flex flex-col gap-3' : 'flex gap-3'}>
             {links && links.map(l => (
                 <li key={l.id}><NavigationLink handleClick={handleLinkClick} to={l.to}>{l.text}</NavigationLink></li>
             ))}

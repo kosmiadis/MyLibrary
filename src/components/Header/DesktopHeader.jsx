@@ -9,7 +9,7 @@ export default function DesktopHeader ({ links }) {
     const screenWidth = useScreenSize();
     let sideBarStyles = screenWidth > 976 ? ' flex-col pt-[50px] pl-[20px] w-[250px] left-0' : ''
 
-    return <motion.div className={'flex lg:bg-accent lg: lg:top-0' + sideBarStyles} variants={desktopNavigationVariants} initial={'initial'} animate={'animate'} >
+    return <motion.div className={'flex lg:bg-accent' + sideBarStyles} variants={desktopNavigationVariants} initial={'initial'} animate={'animate'} >
         {screenWidth >= 976 && <>
             <Logo />
             <br></br>

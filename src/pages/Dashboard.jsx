@@ -1,10 +1,18 @@
-import { useBooks } from "../hooks/useBooks"
+import { useEffect } from "react";
+import { useSelector } from "react-redux"
 
 export default function Dashboard () {
     
-    const { totalMoneySpent } = useBooks();
+    //ready for use
+    const { myBooks } = useSelector((state) => state.myBooks);
+    const { wishlist } = useSelector((state) => state.wishlist);
+
+    useEffect(() => {
+
+    })
     
     return <>
-        <p>Total Money Spent {totalMoneySpent}</p>
+        <p>Total Read Books: {myBooks.length}</p>
+        <p>Total Wishlist Books: {wishlist.length}</p>
     </>
 }

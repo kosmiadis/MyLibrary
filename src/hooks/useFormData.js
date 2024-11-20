@@ -1,4 +1,4 @@
-import { FormDataCtx } from "../../contexts/FormDataContext";
+import { FormDataCtx } from "../contexts/FormDataContext";
 import { useContext } from "react";
 
 export function useFormData () {

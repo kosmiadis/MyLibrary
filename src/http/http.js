@@ -39,11 +39,11 @@ export async function addBook(book) {
         body: JSON.stringify({ book })
     });
     if (!res.ok) {
-        const response = await res.json();
-        throw response;
+        const message = await res.json();
+        throw message;
     }
-    const data = await res.json();
-    return data;
+    const message = await res.json();
+    return message;
 }
 
 export async function deleteBook(bookId) {

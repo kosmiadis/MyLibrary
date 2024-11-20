@@ -14,7 +14,7 @@ export default function MobileNavigation ({ links }) {
         <AnimatePresence>
             {
                 isMenuOpen && 
-                <motion.div variants={mobileNavigationVariants} initial={'initial'} exit={'initial'} animate={'animate'} className=" pt-[20px] absolute top-0 right-0 w-[100%] shadow-md h-screen bg-accent">
+                <motion.div variants={mobileNavigationVariants} initial={'initial'} exit={'initial'} animate={'animate'} className=" pt-[20px] fixed right-0 top-0 w-[100%] shadow-md h-screen bg-accent">
                     <Hamburger setIsMenuOpen={setIsMenuOpen} />
                     <LinksList links={links} setIsMenuOpen={setIsMenuOpen} isMobile={true} />
                 </motion.div>
