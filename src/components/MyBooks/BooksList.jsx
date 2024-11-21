@@ -1,37 +1,35 @@
 import { motion } from 'framer-motion';
 import Book from './Book';
 import { booksListVariants, bookVariants } from '../../animations/animateBooks';
-import { useFetchBooks } from '../../hooks/useFetchBooks';
 import LoadindIndicator from '../../UI/LoadingIndicator';
-import { useDispatch } from 'react-redux'
-import { updateMyBooks } from '../../store/books/myBooksSlice.js';
-import { updateWishlist } from '../../store/books/wishlist.js';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux'
+import Search from '../Search.jsx';
+import { useEffect, useState } from 'react';
 
 export default function BooksList ({ onlyReadBooks }) {
 
-    const { data, isPending, isError } = useFetchBooks(onlyReadBooks);
-    const dispatch = useDispatch();
+    const { books, isPending, isError } = useSelector((state) => state.books);
 
-    const books = data?.books;
+    const [ displayedBooks, setDisplayedBooks ] = useState(undefined); /*Starts with undefined value instead of null,
+        because it would have rendered the case where books === null
+    */
 
-    // Update total books only when books change <-- add later!
+    useEffect(() => {
+    }, [displayedBooks])
+
+    //display only books that match the onlyReadBooks prop value
     useEffect(() => {
         if (books) {
-            if (onlyReadBooks) {
-                dispatch(updateMyBooks({ books }),)
-            }
-            else {
-                dispatch(updateWishlist({ books }),)
-            }
+            setDisplayedBooks(() => {
+                const filteredBooks = [...books].filter(book => book.isRead === onlyReadBooks);
+                return filteredBooks
+            })
         }
     }, [books])
     
     return <>
-    {   /*add filters to sort books like author, price, personal rating etc. */}
-    {/*add global context for books */}
-        <p>Filter by</p>
-        {books?.length > 0 && <span className='text-md font-semibold'></span>}
+            { displayedBooks && <Search onlyReadBooks={onlyReadBooks} books={books} setBooks={setDisplayedBooks} /> /* filters for searching books by author, title etc...*/}
+            {displayedBooks?.length > 0 && <span className='text-md font-semibold'></span>}
         <motion.ul 
             variants={booksListVariants}
             initial={'hidden'}
@@ -40,9 +38,9 @@ export default function BooksList ({ onlyReadBooks }) {
         >   
             { isPending && <LoadindIndicator text='Loading Books'/>}
             { isError && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">Could not load books!</p>}
-            { !isPending && books === null && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">Something went wrong! Please try again later.</p>}
-            { !isPending && books?.length === 0 && <p className='m-auto text-lg font-semibold font-specialFont'>There are no books!</p>}
-            { !isPending && books?.length > 0 && books?.map(book => (
+            { !isPending && displayedBooks === null && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">Something went wrong! Please try again later.</p>}
+            { !isPending && displayedBooks?.length === 0 && <p className='m-auto text-lg font-semibold font-specialFont'>There are no books!</p>}
+            { !isPending && displayedBooks?.length > 0 && displayedBooks?.map(book => (
                 <motion.li key={book._id} variants={bookVariants}>
                     <Book book={book}/>
                 </motion.li>

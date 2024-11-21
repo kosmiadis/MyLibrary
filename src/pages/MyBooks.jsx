@@ -35,7 +35,7 @@ export default function MyBooks () {
                 <Button onClick={onOpen}>Add Book</Button>
             </div>
         </div>
-        <BooksList onlyReadBooks={true}/>
+        <BooksList onlyReadBooks={true} />
 
         {/*Modal component */}
         <AddBooks isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange}/>

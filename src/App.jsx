@@ -7,11 +7,14 @@ import Dashboard from './pages/Dashboard';
 import PageNotFound from './components/Error/PageNotFound';
 import BookDetailsPage from './pages/BookDetailsPage';
 import MyBooksLayout from './Layouts/MyBooksLayout';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from './http/http';
-import { NextUIProvider } from "@nextui-org/react";
+import { NextUIProvider, useSelect } from "@nextui-org/react";
 import FormDataContext from './contexts/FormDataContext';
 import WishlistLayout from './Layouts/WishlistLayout';
+import { useFetchBooks } from './hooks/useFetchBooks';
+
+//for updating the store state
+import { useDispatch, useSelector } from 'react-redux';
+import { updateBooks, updateIsError, updateIsPending } from './store/books/booksSlice';
 
 const router = createBrowserRouter([
   {path: '/', element: <CoreLayout />, children: [
@@ -29,19 +32,31 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
- 
+  
+  /* Main book fetching */
+  const { data, isError, isPending } = useFetchBooks();
+  const dispatch = useDispatch();
+  const books = data?.books;
+
   useEffect(() => {
     document.body.style.overflowX = 'hidden'
-  })
+    dispatch(updateBooks({ books }));
+  }, [books]);
+
+  useEffect(() => {
+    dispatch(updateIsPending({ isPending }));
+  }, [isPending]);
+
+  useEffect(() => {
+    dispatch(updateIsError({ isError }));
+  }, [isError]);
   
   return (
-    <QueryClientProvider client={queryClient}>
-          <NextUIProvider>
-            <FormDataContext>
-              <RouterProvider router={router}/>
-            </FormDataContext>
-          </NextUIProvider>
-    </QueryClientProvider>
+    <NextUIProvider>
+      <FormDataContext>
+        <RouterProvider router={router}/>
+      </FormDataContext>
+    </NextUIProvider>
   )
 };
 

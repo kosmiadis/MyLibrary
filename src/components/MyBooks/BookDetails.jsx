@@ -42,7 +42,7 @@ export default function BookDetails ({ book }) {
     }
 
     function handleDelete() {
-        mutate(_id);
+        mutate(_id);        
     }
 
     //navigate back to books after succesfull deletion.
