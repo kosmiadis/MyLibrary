@@ -2,27 +2,29 @@ import { Modal, ModalContent, Input,ModalHeader, ModalBody, Checkbox } from "@ne
 import Button from '../UI/Button';
 import { createPortal } from "react-dom";
 import LoadingIndicator from "./LoadingIndicator";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useFormData } from '../hooks/useFormData.js';
 
 export default function ModalComponent ({ mutationObj, formTitle, loadingText, submitBtnText, isOpen, onOpenChange }) {
 
     const isReadRef = useRef();
-    const [ isDismissable, setIsDismissable ] = useState(true);
     const { title, author, description, personalRating, price, imgUrl, isRead,
         setTitle, setAuthor, setDescription, setPersonalRating, setPrice, setImgUrl, setIsRead,
         setValues
       } = useFormData();
 
-    const { isPending, isError, mutate, message } = mutationObj;
+    const { isPending, isError, mutate, message, setMessage } = mutationObj;
     
     function handleSubmit (e) {
         e.preventDefault();
-        setIsDismissable(false);
         const formData = new FormData(e.target)
         const newBook = Object.fromEntries(formData);
         newBook.isRead = isReadRef.current.checked;
-        //save fields to context
+        
+        /*re-initialize error message*/
+        setMessage('');
+
+        /*add new book*/
         mutate(newBook)
     }
 
@@ -40,16 +42,17 @@ export default function ModalComponent ({ mutationObj, formTitle, loadingText, s
 
     return createPortal(<>
         <Modal 
-        isKeyboardDismissDisabled={isDismissable}
-        isDismissable={isDismissable}
-        backdrop="blur" 
-        isOpen={isOpen} 
-        onOpenChange={onOpenChange}
-        radius="lg"
-        classNames={{
+          isKeyboardDismissDisabled={false}
+          isDismissable={false}
+          backdrop="blur" 
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          radius="lg"
+          classNames={{
           body: "py-6",
           base: "border-accent bg-white dark:bg-[#19172c] text-primaryForeground",
-          closeButton: "hover:bg-white/5 active:bg-white/10",
+          closeButton: 'hidden' //hide it so that user cannot close it while making requests.
+          /*closeButton: "hover:bg-white/5 active:bg-white/10",*/
         }}
       >
         <ModalContent className={isPending ? 'px-4': ''}>
@@ -61,7 +64,7 @@ export default function ModalComponent ({ mutationObj, formTitle, loadingText, s
                       {formTitle}
                       { isError && message?.err && ( message?.msg.map(e => (
                             <p key={e.errMessage} className="text-red-600 text-sm font-specialFont">{e.errMessage}</p>
-                      )) && setIsDismissable(true))}
+                      )) /*&&*/ /*setIsDismissable(true)*/)}
                     </ModalHeader>
                     <ModalBody>
                       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

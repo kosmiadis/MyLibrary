@@ -2,14 +2,9 @@ import { QueryClient } from "@tanstack/react-query"
 
 export const queryClient = new QueryClient()
 
-export async function fetchBooks(signal, onlyReadBooks) {
-    let url;    
-    if (onlyReadBooks === true) {
-        url = 'http://localhost:5000/books?isRead=true';
-    }
-    else {
-        url = 'http://localhost:5000/books?isRead=false';
-    }
+export async function fetchBooks(signal) {
+    let url = 'http://localhost:5000/books';
+        
     const res = await fetch(url, {signal});
     if (!res.ok) {
         throw new Error('Could not load books.')

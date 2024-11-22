@@ -20,5 +20,5 @@ export function useAddBook(onClose) {
         },
         retry: 1
     });
-    return { mutate, isPending, isError, message, error };
+    return { mutate, isPending, isError, message, error, setMessage };
 }
