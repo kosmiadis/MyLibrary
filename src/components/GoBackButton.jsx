@@ -30,7 +30,7 @@ export default function GoBackButton () {
         bounce: 0.5, duration: 0.3
     }
 
-    return <motion.div className='' initial={'initial'} animate={"show"} variants={goBackButtonVariants} transition={transitionValues}>
+    return <motion.div className='ml-[10px]' initial={'initial'} animate={"show"} variants={goBackButtonVariants} transition={transitionValues}>
         <Button onClick={handleAction}>
             Go Back 
         </Button>

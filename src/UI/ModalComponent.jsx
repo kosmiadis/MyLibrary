@@ -13,18 +13,13 @@ export default function ModalComponent ({ mutationObj, formTitle, loadingText, s
         setValues
       } = useFormData();
 
-    const { isPending, isError, mutate, message, setMessage } = mutationObj;
+    const { isPending, isError, mutate, error } = mutationObj;
     
     function handleSubmit (e) {
         e.preventDefault();
         const formData = new FormData(e.target)
         const newBook = Object.fromEntries(formData);
         newBook.isRead = isReadRef.current.checked;
-        
-        /*re-initialize error message*/
-        setMessage('');
-
-        /*add new book*/
         mutate(newBook)
     }
 
@@ -62,9 +57,14 @@ export default function ModalComponent ({ mutationObj, formTitle, loadingText, s
                 {!isPending && <>
                     <ModalHeader className="flex flex-col gap-1 font-specialFont font-bold text-xl text-accent">
                       {formTitle}
-                      { isError && message?.err && ( message?.msg.map(e => (
-                            <p key={e.errMessage} className="text-red-600 text-sm font-specialFont">{e.errMessage}</p>
-                      )) /*&&*/ /*setIsDismissable(true)*/)}
+                      {isError && 
+                      <p key={error.message} className="text-red-600 text-sm font-specialFont">{error.message}</p>}
+                      {isError && error?.length > 0 && error?.map(er => (
+                        <p key={er.errMessage} className="text-red-600 text-sm font-specialFont">{er.errMessage}</p>
+                      ))}
+                      {/* isError && message?.err && ( message?.msg.map(e => (
+                            
+                      )) /*&&*/ /*setIsDismissable(true)}*/}
                     </ModalHeader>
                     <ModalBody>
                       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

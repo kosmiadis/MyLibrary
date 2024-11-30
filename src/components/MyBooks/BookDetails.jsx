@@ -18,7 +18,7 @@ export default function BookDetails ({ book }) {
     const { setValues } = useFormData();
 
     const screenWidth = useScreenSize();
-    const { mutate, isPending, isError, message } = useDeleteBook();
+    const { mutate, isPending, isError, message, error } = useDeleteBook();
 
     const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ export default function BookDetails ({ book }) {
         {isPending && <LoadingIndicator text='Deleting book'/>}
         {!isPending && (message?.err === true || message === null) && <>
             <motion.div transition={bookRelatedContentTransitions}>
-            { isError && <p className='text-md font-bold font-specialFont text-red-600'>{message?.msg}</p> }
+            { isError && <p className='text-md font-bold font-specialFont text-red-600'>{error.message}</p> }
                 <motion.div className={'mx-auto min-w-screen align-middle content-center flex flex-col max-w-[300px]'} variants={variants} initial="initial" animate="show">
                         <img className={'sm:w-[200px] md:w-[100%] xl:w-[100%]' + screenWidth < 976 ? 'mx-auto' : 'max-w-[300px] mx-auto'} src={imgUrl} alt={title} />
                         <div className='flex flex-col'>

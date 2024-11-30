@@ -2,8 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     books: [],
-    isPending: false,
-    isError: false,
 }
 
 const booksSlice = createSlice({
@@ -13,15 +11,9 @@ const booksSlice = createSlice({
         updateBooks: (state, action) => {
             state.books = action.payload.books;
         },
-        updateIsPending: (state, action) => {
-            state.isPending = action.payload.isPending
-        },
-        updateIsError: (state, action) => {
-            state.isError = action.payload.isError
-        },
     }
 })
 
-export const { updateBooks, updateIsPending, updateIsError } = booksSlice.actions;
+export const { updateBooks, updateIsPending, updateIsError, updateError } = booksSlice.actions;
 
 export default booksSlice.reducer;

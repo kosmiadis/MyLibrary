@@ -5,7 +5,10 @@ export const queryClient = new QueryClient()
 export async function fetchBooks(signal) {
     let url = 'http://localhost:5000/books';
         
-    const res = await fetch(url, {signal});
+    const res = await fetch(url, {
+        credentials: 'include',
+        signal
+    });
     if (!res.ok) {
         throw new Error('Could not load books.')
     }
@@ -16,9 +19,15 @@ export async function fetchBooks(signal) {
 export async function fetchBook(signal, id) {
     
     let url = 'http://localhost:5000/books/' + id;
-    const res = await fetch(url, {signal});
+    const res = await fetch(url, {
+        credentials: 'include',  
+        signal
+    });
     if (!res.ok) {
-        throw new Error('Could not load book.')
+        //error message
+        const { message } = await res.json();
+
+        throw new Error(message)
     }
     const data = await res.json();
     return data;
@@ -28,6 +37,7 @@ export async function addBook(book) {
     let url = 'http://localhost:5000/books/add-book';
     const res = await fetch(url, { 
         method: "POST",
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -45,6 +55,7 @@ export async function deleteBook(bookId) {
     let url = 'http://localhost:5000/books/delete-book';
     const res = await fetch(url, { 
         method: 'DELETE',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -63,6 +74,7 @@ export async function updateBook(id, updatedBook) {
     let url = 'http://localhost:5000/books/update-book';
     const res = await fetch(url, { 
         method: 'PATCH',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -74,4 +86,94 @@ export async function updateBook(id, updatedBook) {
     }
     const { message } = await res.json();
     return message;
+}
+
+export async function login ({email, password}) {
+
+    let url = 'http://localhost:5000/login';
+    const res = await fetch(url, { 
+        method: "POST",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password })
+    });
+    if (!res.ok) {
+        const message = await res.json();
+        throw new Error(message);
+    }
+    const message = await res.json();
+    return message;
+}
+
+export async function signup ({ firstName, lastName, age, birthDate, email, username, password }) {
+    
+    let url = 'http://localhost:5000/signup';
+
+    const user = {
+        firstName,
+        lastName,
+        age,
+        birthDate,
+        email,
+        username,
+        password
+    };
+
+    const res = await fetch(url, { 
+        method: "POST",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user })
+    });
+
+    if (!res.ok) {
+        const message = await res.json();
+        console.log(message);
+        throw new Error(message);
+    }
+    return await res.json();
+}
+
+export async function authenticateUser () {
+    
+    let url = 'http://localhost:5000/users/me';
+
+    const res = await fetch(url, { 
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!res.ok) {
+        const message = await res.json();
+        throw new Error(message);
+    }
+    const user = await res.json();
+    return user;
+    
+}
+
+export async function logout () {
+    let url = 'http://localhost:5000/logout';
+    
+    const res = await fetch(url, { 
+        method: "GET",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!res.ok) {
+        const message = await res.json();
+        throw new Error(message);
+    }
+    const user = await res.json();
+    return user;
 }

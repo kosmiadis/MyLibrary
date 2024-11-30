@@ -3,13 +3,15 @@ import MobileHeader from './MobileHeader';
 import DesktopHeader from './DesktopHeader';
 import Logo from './Logo';
 
-const links = [
-    {id: 1, to: '/my-books', text: 'MyBooks'},
-    {id: 2, to: '/wishlist', text: 'Wishlist'},
-    {id: 3, to: '/dashboard', text: 'Dashboard'},
-]
-
 export default function Header () {
+
+
+    const links = [
+        {id: 1, to: '/my-books', text: 'MyBooks'},
+        {id: 2, to: '/wishlist', text: 'Wishlist'},
+        {id: 3, to: '/dashboard', text: 'Dashboard'},
+        {id: 4, to: '/profile', text: 'Profile'},
+    ];
 
     //to check if the screen dimension is mobile or bigger.
     const screenWidth = useScreenSize();

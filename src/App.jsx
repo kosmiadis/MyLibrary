@@ -7,14 +7,17 @@ import Dashboard from './pages/Dashboard';
 import PageNotFound from './components/Error/PageNotFound';
 import BookDetailsPage from './pages/BookDetailsPage';
 import MyBooksLayout from './Layouts/MyBooksLayout';
-import { NextUIProvider, useSelect } from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
 import FormDataContext from './contexts/FormDataContext';
 import WishlistLayout from './Layouts/WishlistLayout';
-import { useFetchBooks } from './hooks/useFetchBooks';
+import Profile from './pages/Profile';
 
 //for updating the store state
-import { useDispatch, useSelector } from 'react-redux';
-import { updateBooks, updateIsError, updateIsPending } from './store/books/booksSlice';
+
+
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import { useAuthenticateUser } from './hooks/auth/useAuthenticateUser';
 
 const router = createBrowserRouter([
   {path: '/', element: <CoreLayout />, children: [
@@ -28,29 +31,19 @@ const router = createBrowserRouter([
       {path: ':id', element: <BookDetailsPage />},
     ]},
     {path: 'dashboard', element: <Dashboard />},
-  ], errorElement: <CoreLayout><PageNotFound /></CoreLayout>}
+    {path: 'profile', element: <Profile />},
+  ], errorElement: <CoreLayout><PageNotFound /></CoreLayout>},
+  {path: 'login', element: <Login />},
+  {path: 'signup', element: <Signup />},
+  
 ]);
 
 function App() {
   
-  /* Main book fetching */
-  const { data, isError, isPending } = useFetchBooks();
-  const dispatch = useDispatch();
-  const books = data?.books;
-
   useEffect(() => {
     document.body.style.overflowX = 'hidden'
-    dispatch(updateBooks({ books }));
-  }, [books]);
+  }, []);
 
-  useEffect(() => {
-    dispatch(updateIsPending({ isPending }));
-  }, [isPending]);
-
-  useEffect(() => {
-    dispatch(updateIsError({ isError }));
-  }, [isError]);
-  
   return (
     <NextUIProvider>
       <FormDataContext>
