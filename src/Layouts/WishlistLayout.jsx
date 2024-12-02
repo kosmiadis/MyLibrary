@@ -6,7 +6,7 @@ export default function WishlistLayout () {
 
     return <section className='w-full'>
         {/*prevent from loading the go back button in they my books page*/}
-        {!(location.pathname === '/wishlist') && <GoBackButton />}
+        {!(location.pathname === '/library/wishlist') && <GoBackButton />}
         <Outlet />
     </section>
 }

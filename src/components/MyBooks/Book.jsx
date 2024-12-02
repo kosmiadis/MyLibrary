@@ -8,11 +8,11 @@ export default function Book ({ book }) {
     const navigate = useNavigate();
 
     function handleBookClick () {
-        if (location.pathname === '/my-books') {
-            navigate(`/my-books/${_id}`)
+        if (location.pathname === '/library/my-books') {
+            navigate(`/library/my-books/${_id}`)
         }
-        else if (location.pathname === '/wishlist') {
-            navigate(`/wishlist/${_id}`)
+        else if (location.pathname === '/library/wishlist') {
+            navigate(`/library/wishlist/${_id}`)
         }
     }
 

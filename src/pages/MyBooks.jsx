@@ -5,8 +5,6 @@ import AddBooks from "../components/AddBooks.jsx";
 import { useEffect } from "react";
 import { useFormData } from "../hooks/useFormData.js";
 import { queryClient } from "../http/http.js";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 
 export default function MyBooks () {
@@ -14,15 +12,6 @@ export default function MyBooks () {
     //list of books that i have in my possesion.
     const { isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
     const { setValues } = useFormData();
-    const navigate = useNavigate();
-    const isAuthorized = useSelector((state) => state.auth.authorized);
-    const isLoading = useSelector((state) => state.auth.loading);
-
-    useEffect(() => {
-        if (!isLoading && !isAuthorized) {
-            navigate('/login');
-        }
-    }, [isAuthorized, isLoading]);
 
     useEffect(() => {
         queryClient.invalidateQueries();
@@ -43,10 +32,6 @@ export default function MyBooks () {
             isRead: false
           })
     }, [])
-
-    if (isLoading) {
-        return <LoadingIndicator text='Loading App'/> // Or use a spinner component
-    }
 
     return <>
         

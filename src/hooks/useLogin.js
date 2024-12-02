@@ -12,7 +12,7 @@ export function useLogin () {
         mutationFn: login,
         retry: 0,
         onSuccess: ({ user }) => {  
-            dispatch(authSuccessful({ user }))
+            dispatch(authSuccessful({ user }));
         },
         onError: () => {
             navigate('/login');

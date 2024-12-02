@@ -9,7 +9,6 @@ export default function BookDetailsPage () {
     
     return <div>
         { isPending && <LoadingIndicator text="Loading Book Data"/> } 
-
         {/*{ isError && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">Something went wrong. Please try again later.</p>}*/}
         { isError && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">{error.message}</p>}
         { data?.book === null && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">Could not load book :(</p>}

@@ -8,7 +8,7 @@ export function useAuthenticateUser () {
 
     const dispatch = useDispatch();
 
-    const { mutate, isPending } = useMutation({
+    const { mutate, isPending, isError } = useMutation({
         mutationFn: authenticateUser,
         retry: 0,
         onMutate: () => {
@@ -22,5 +22,5 @@ export function useAuthenticateUser () {
         }
     });
 
-    return { mutate, isPending };
+    return { mutate, isPending, isError };
 }

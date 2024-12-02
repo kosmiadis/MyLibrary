@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import CoreLayout from './Layouts/CoreLayout';
 import MyBooks from './pages/MyBooks';
 import Wishlist from './pages/Wishlist';
@@ -11,35 +11,35 @@ import { NextUIProvider } from "@nextui-org/react";
 import FormDataContext from './contexts/FormDataContext';
 import WishlistLayout from './Layouts/WishlistLayout';
 import Profile from './pages/Profile';
-
-//for updating the store state
-
-
+import AuthPage from './pages/AuthPage.jsx';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import { useAuthenticateUser } from './hooks/auth/useAuthenticateUser';
+import Protected from './pages/Protected.jsx';
+import StartingPage from './pages/StartingPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 const router = createBrowserRouter([
-  {path: '/', element: <CoreLayout />, children: [
-    {path: '', element: <Navigate to='/my-books'/>},
-    {path: 'my-books', element: <MyBooksLayout />, children: [
+  {path: '/', element: <StartingPage />, errorElement: <NotFoundPage />},
+  {path: '/library', element: <Protected><CoreLayout /></Protected>, children: [
+    {path: 'my-books', element: <MyBooksLayout />,  
+      children: [
       {path: '', element: <MyBooks />},
       {path: ':id', element: <BookDetailsPage />},
     ]},
-    {path: 'wishlist', element: <WishlistLayout />, children: [
+    {path: 'wishlist', element: 
+        <WishlistLayout />,
+      children: [
       {path: '', element: <Wishlist />},
       {path: ':id', element: <BookDetailsPage />},
     ]},
     {path: 'dashboard', element: <Dashboard />},
     {path: 'profile', element: <Profile />},
   ], errorElement: <CoreLayout><PageNotFound /></CoreLayout>},
-  {path: 'login', element: <Login />},
-  {path: 'signup', element: <Signup />},
-  
+  {path: '/auth', element: <AuthPage />}
 ]);
 
 function App() {
-  
+
   useEffect(() => {
     document.body.style.overflowX = 'hidden'
   }, []);
@@ -47,7 +47,9 @@ function App() {
   return (
     <NextUIProvider>
       <FormDataContext>
-        <RouterProvider router={router}/>
+        <div className='min-w-full min-h-screen'>
+          <RouterProvider router={router}/>
+        </div>
       </FormDataContext>
     </NextUIProvider>
   )

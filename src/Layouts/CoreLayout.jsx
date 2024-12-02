@@ -3,6 +3,8 @@ import Header from "../components/Header/Header";
 /*import Footer from '../components/Footer/Footer';*/
 import PageContent from "../UI/PageContent";
 import useScreenSize from "../hooks/useScreenSize";
+import { useSelector } from "react-redux";
+import LoadingIndicator from "../UI/LoadingIndicator";
 
 export default function CoreLayout ({ children }) {
 

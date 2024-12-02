@@ -7,13 +7,10 @@ import { Navigate } from 'react-router-dom';
 export default function Login () {
     
     const { isPending, mutate } = useLogin();
-    const isAuthorized = useSelector((state) => state.auth.authorized);
 
+    const isAuthorized = useSelector(({auth}) => auth.authorized);
 
-    if (isAuthorized) {
-        return <Navigate to='/'/>
-    }
-
+    if (isAuthorized) return <Navigate to='/library/my-books' />
 
     return <AuthWrapper title={'Login to your Account'}>
         <AuthForm type={'login'} mutate={mutate} isPending={isPending} loadingText='Logging In'/>

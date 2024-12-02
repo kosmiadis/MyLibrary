@@ -10,7 +10,6 @@ export function useLogout () {
         mutationFn: logout,
         retry: 0,
         onSuccess: () => {
-
             dispatch(resetAuth());
         }
     });
