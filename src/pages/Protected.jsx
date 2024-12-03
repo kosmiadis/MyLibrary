@@ -14,7 +14,7 @@ export default function Protected ({children}) {
         checkAuth();
     }, [])
 
-    if (isLoading) return <div className="m-auto mt-[150px]"><LoadingIndicator text='Please wait' /></div>
+    if (isLoading) return <div className="absolute top-[40%] left-[50%] translate-x-[-50%]"><LoadingIndicator text='Please wait' /></div>
 
     if (!isLoading && !isAuthorized) return <Navigate to='/auth?mode=login'/>
 

@@ -6,13 +6,15 @@ import { Navigate } from 'react-router-dom';
 
 export default function Login () {
     
-    const { isPending, mutate } = useLogin();
+    const { isPending, mutate, isError, error } = useLogin();
+
+    const message = error?.message;
 
     const isAuthorized = useSelector(({auth}) => auth.authorized);
 
     if (isAuthorized) return <Navigate to='/library/my-books' />
 
-    return <AuthWrapper title={'Login to your Account'}>
+    return <AuthWrapper title={'Login to your Account'} isError={isError} error={message}>
         <AuthForm type={'login'} mutate={mutate} isPending={isPending} loadingText='Logging In'/>
     </AuthWrapper>
 }

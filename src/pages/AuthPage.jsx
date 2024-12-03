@@ -19,19 +19,17 @@ export default function AuthPage () {
     const mode = searchParams.get('mode');
 
     function initializeSearchParams () {
-        const params = new URLSearchParams().set("mode", "login");
-        setSearchParams(params, {
-            preventScrollReset: true,
-        });
+        const params = new URLSearchParams();
+        params.set('mode', 'login');
+        setSearchParams(params);
     }
 
     useEffect(() => {
-        //initialize mode to 'login' in case of unknown "mode" parameter or if mode parameter is missing
-        if (!mode || (mode !== 'login' && mode !== 'signup')) {
-            initializeSearchParams()
+        if (mode === null || (mode !== 'login' && mode !== 'signup')) {
+            initializeSearchParams();
         }
     }, [])
-    
+
     return <>
         <AuthPageHeader mode={mode}/>
         {mode === 'login' && <Login />}

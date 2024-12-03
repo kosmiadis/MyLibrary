@@ -1,27 +1,37 @@
 import { Input } from "@nextui-org/react"
 import Button from "../../UI/Button";
 import LoadingIndicator from '../../UI/LoadingIndicator.jsx';
+import { motion, stagger } from "framer-motion";
+import { useAnimate } from "framer-motion";
+import { useEffect } from "react";
 
 export default function AuthForm ({type, mutate, isPending, loadingText}) {
 
     let content;
 
+    const [scope, animate] = useAnimate();
+
+    useEffect(() => {
+        if (scope.current) {
+            animate('input, label', { opacity: [0, 1] }, { duration: 0.5, delay: stagger(0.05)})
+        }
+    })
+
     if ( type === 'login' ) {
-        content = <>
-            <Input name='email' label='email' type="email" />
+        content = <motion.div className="flex flex-col gap-4" ref={scope} transition={{ delayChildren: 1}}>
+            <Input name='email' label='Email' type="email" />
             <Input name='password' type='password' label='Password' />
-        </>
+        </motion.div>
     }
     else if (type === 'signup') {
-        content = <>
+        content = <motion.div className="flex flex-col gap-4" ref={scope} transition={{ delayChildren: 1}}>
             <Input name='firstName' label='First Name' />
             <Input name='lastName' label='Last Name' />
             <Input name='age' label='Age' />
-            <Input name='birthDate' label='Date of Birth' type='date' />
             <Input name='email' label='Email' type='email' />
             <Input name='username' label='Username' />
             <Input name='password' type='password' label='Password' />
-        </>
+        </motion.div>
     }
     
     function handleSubmit (e) {
@@ -42,13 +52,13 @@ export default function AuthForm ({type, mutate, isPending, loadingText}) {
         }
     }
 
-    return <form onSubmit={handleSubmit} className="bg-accent/70 px-8 py-10 rounded-lg flex flex-col gap-4">
+    return <form onSubmit={handleSubmit} className='py-8 bg-accent/50 p-4 rounded-md'>
         { isPending && <LoadingIndicator text={loadingText}/>}
 
         {!isPending &&
         <>
             {content}
-            <Button classes={'ml-auto w-min'}>{type === 'login' ? 'Login' : 'Signup'}</Button>
+            <Button classes={'mt-[20px] w-min'}>{type === 'login' ? 'Login' : 'Signup'}</Button>
         </>
         }
     </form>

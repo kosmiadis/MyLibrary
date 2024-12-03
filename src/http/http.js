@@ -101,7 +101,7 @@ export async function login ({email, password}) {
     });
     if (!res.ok) {
         const message = await res.json();
-        throw new Error(message);
+        throw message;
     }
     const message = await res.json();
     return message;
@@ -132,8 +132,7 @@ export async function signup ({ firstName, lastName, age, birthDate, email, user
 
     if (!res.ok) {
         const message = await res.json();
-        console.log(message);
-        throw new Error(message);
+        throw message
     }
     return await res.json();
 }
