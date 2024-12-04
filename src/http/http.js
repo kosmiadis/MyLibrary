@@ -60,13 +60,11 @@ export async function deleteBook(bookId) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ id: bookId })
-    });
+    }); 
     if (!res.ok) {
-        const message = 'Something went wrong! Could not delete book.'
-        throw message;
+        throw await res.json();
     }
-    const { message } = await res.json();
-    return message;
+    return await res.json();
 }
 
 export async function updateBook(id, updatedBook) {

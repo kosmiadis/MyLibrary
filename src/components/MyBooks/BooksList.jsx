@@ -6,7 +6,7 @@ import Search from '../Search.jsx';
 import { useEffect, useState } from 'react';
 import { useFetchBooks } from '../../hooks/useFetchBooks.js';
 
-export default function BooksList ({ onlyReadBooks }) {
+export default function BooksList ({ type }) {
     const { data, isError, isPending, error } = useFetchBooks();
     const [ displayedBooks, setDisplayedBooks ] = useState(null); /*Starts with undefined value instead of null,
         because it would have rendered the case where books === null
@@ -18,14 +18,14 @@ export default function BooksList ({ onlyReadBooks }) {
     useEffect(() => {
         if (books) {
             setDisplayedBooks(() => {
-            const filteredBooks = [...books].filter(book => book.isRead === onlyReadBooks);
+            const filteredBooks = [...books].filter(book => book.type === type);
             return filteredBooks
         })
     }}, [books])
    
     
     return <>
-            { displayedBooks && <Search onlyReadBooks={onlyReadBooks} books={books} setBooks={setDisplayedBooks} /> /* filters for searching books by author, title etc...*/}
+            { displayedBooks && <Search type={type} books={books} setBooks={setDisplayedBooks} /> /* filters for searching books by author, title etc...*/}
             { isPending && <LoadindIndicator text='Loading Books'/>}
         <motion.ul 
             variants={booksListVariants}

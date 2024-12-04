@@ -5,7 +5,6 @@ import AddBooks from "../components/AddBooks.jsx";
 import { useEffect } from "react";
 import { useFormData } from "../hooks/useFormData.js";
 import { queryClient } from "../http/http.js";
-import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 
 export default function MyBooks () {
     
@@ -42,7 +41,7 @@ export default function MyBooks () {
                     <Button onClick={onOpen}>Add Book</Button>
                 </div>
             </div>
-            <BooksList onlyReadBooks={true} />
+            <BooksList type={'possesion'} />
 
             {/*Modal component */}
             <AddBooks isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange}/>

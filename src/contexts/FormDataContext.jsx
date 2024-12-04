@@ -5,7 +5,7 @@ export const FormDataCtx = createContext({
     title: String,
     author: String,
     description: String,
-    personalRating: Number,
+    type: String,
     price: Number,
     imgUrl: String,
     isRead: Boolean
@@ -16,27 +16,27 @@ export default function FormDataContext ({ children }) {
     const [ title, setTitle ] = useState('');
     const [ author, setAuthor ] = useState('');
     const [ description, setDescription ] = useState('');
-    const [ personalRating, setPersonalRating ] = useState(0);
+    const [ type, setType ] = useState('Possesion')
     const [ price, setPrice ] = useState(0);
     const [ imgUrl, setImgUrl ] = useState('');
     const [ isRead, setIsRead ] = useState(false);
 
     function setValues(newValues) {
-        const { title, author, description, personalRating, price, imgUrl, isRead } = newValues;
+        const { title, author, description, type, price, imgUrl, isRead } = newValues;
         setTitle(title);
         setAuthor(author);
         setDescription(description);
-        setPersonalRating(personalRating);
+        setType(type);
         setPrice(price);
         setImgUrl(imgUrl);
-        setIsRead(isRead)
+        setIsRead(isRead);
     }
 
     const values = {
         title, setTitle,
         author, setAuthor,
         description, setDescription,
-        personalRating, setPersonalRating,
+        type, setType,
         price, setPrice, 
         imgUrl, setImgUrl,
         isRead, setIsRead,

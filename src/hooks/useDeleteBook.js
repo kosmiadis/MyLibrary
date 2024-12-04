@@ -1,19 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { deleteBook } from "../http/http";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function useDeleteBook() {
-    const [ message, setMessage ] = useState(null);
-
+    const navigate = useNavigate();
+    
     const { mutate, isPending, isError, error } = useMutation({
         mutationFn: (id) => deleteBook(id),
-        onSuccess: (message) => {
-            setMessage({ err: false, msg: message })
-        },
-        onError: (message) => {
-            setMessage({ err: true, msg: message })
+        onSuccess: () => {
+            navigate('/library/my-books')
         },
         retry: 1
     });
-    return { mutate, isPending, isError, message, error };
+    return { mutate, isPending, isError, error };
 }

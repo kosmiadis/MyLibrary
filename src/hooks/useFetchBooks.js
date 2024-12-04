@@ -9,9 +9,9 @@ export function useFetchBooks() {
     const { data, isPending, isError, error } = useQuery({
         queryKey: ['books'],
         queryFn: ({ signal }) => fetchBooks(signal),
-        retry: 1,
-        enabled: isAuthorized
+        retry: 0,
         /*Fetches books only when the user is authenticated. */
+        enabled: isAuthorized 
     });
     return { data, isPending, isError, error };
 }

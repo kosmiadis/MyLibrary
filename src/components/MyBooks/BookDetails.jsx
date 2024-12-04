@@ -3,8 +3,6 @@ import useScreenSize from '../../hooks/useScreenSize';
 import Button from '../../UI/Button';
 import { useDeleteBook } from '../../hooks/useDeleteBook';
 import LoadingIndicator from '../../UI/LoadingIndicator';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@nextui-org/react';
 import UpdateBook from '../UpdateBook';
 import { useFormData } from '../../hooks/useFormData';
@@ -18,9 +16,7 @@ export default function BookDetails ({ book }) {
     const { setValues } = useFormData();
 
     const screenWidth = useScreenSize();
-    const { mutate, isPending, isError, message, error } = useDeleteBook();
-
-    const navigate = useNavigate();
+    const { mutate, isPending, isError, error } = useDeleteBook();
 
     const variants = {
         initial: {
@@ -45,25 +41,11 @@ export default function BookDetails ({ book }) {
         mutate(_id);        
     }
 
-    //navigate back to books after succesfull deletion.
-    useEffect(() => {
-        let redirectTimeout;
-        if (message?.msg === 'Book was deleted.') {
-            redirectTimeout = setTimeout(() => {
-                navigate('../')
-            }, 2000);
-        }
-
-        return () => {
-            clearTimeout(redirectTimeout);
-        }
-    }, [message])
-
     return <div className='p-4 flex sm:flex-wrap sm:justify-center md:justify-normal md:flex-nowrap md:gap-8 mt-4'>
         {isPending && <LoadingIndicator text='Deleting book'/>}
-        {!isPending && (message?.err === true || message === null) && <>
+        {!isPending && <>
             <motion.div transition={bookRelatedContentTransitions}>
-            { isError && <p className='text-md font-bold font-specialFont text-red-600'>{error.message}</p> }
+            { isError && <p className='text-lg mb-[10px] font-bold font-specialFont text-red-600'>{error.message || 'Book was not deleted!'}</p> }
                 <motion.div className={'mx-auto min-w-screen align-middle content-center flex flex-col max-w-[300px]'} variants={variants} initial="initial" animate="show">
                         <img className={'sm:w-[200px] md:w-[100%] xl:w-[100%]' + screenWidth < 976 ? 'mx-auto' : 'max-w-[300px] mx-auto'} src={imgUrl} alt={title} />
                         <div className='flex flex-col'>
@@ -96,11 +78,6 @@ export default function BookDetails ({ book }) {
             </motion.div>
         </>}
 
-        {/*if it is not pending and deletion was succesful */}
-        {!isPending && message?.err === false && <div className='flex flex-col gap-4'>
-            <p className='m-auto text-xl text-green-600 font-bold font-specialFont'>Book was deleted succesfully!</p>
-            <LoadingIndicator text='Redirecting'/>
-        </div>}
         <UpdateBook startingValues={{ id: _id, title, author, imgUrl, description, price, personalRating, isRead}} isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange} />
     </div>
 }

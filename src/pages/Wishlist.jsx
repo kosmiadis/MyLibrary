@@ -14,7 +14,7 @@ export default function Wishlist () {
             </div>
         </div>
         
-        <BooksList onlyReadBooks={false}/>
+        <BooksList type={'wishlist'}/>
         <AddBooks isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange}/>
     </div>
 }

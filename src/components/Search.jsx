@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "@nextui-org/react";
-import Button from "../UI/Button";
 
-export default function Search ({ onlyReadBooks, books, setBooks }) {
+export default function Search ({ type, books, setBooks }) {
     const [ searchTerm, setSearchTerm ] = useState('');
     const [ searchCategory, setSearchCategory] = useState('title');
     const [ searchLabel, setSearchLabel ] = useState('Search by ' + searchCategory)
@@ -19,8 +18,8 @@ export default function Search ({ onlyReadBooks, books, setBooks }) {
         setBooks(() => {
             const filteredBooks = 
                 searchCategory === 'title' 
-                ? [...books].filter(b => b.isRead === onlyReadBooks && b.title.toLowerCase().includes(searchTerm.trim().toLowerCase()))
-                : [...books].filter(b => b.isRead === onlyReadBooks && b.author.toLowerCase().includes(searchTerm.trim().toLowerCase()))
+                ? [...books].filter(b => b.type === type && b.title.toLowerCase().includes(searchTerm.trim().toLowerCase()))
+                : [...books].filter(b => b.type === type && b.author.toLowerCase().includes(searchTerm.trim().toLowerCase()))
             return filteredBooks;
         })
     }

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { logout } from "../http/http";
+import { logout, queryClient } from "../http/http";
 import { useDispatch } from "react-redux";
 import { resetAuth } from "../store/authSlice";
 
@@ -10,6 +10,7 @@ export function useLogout () {
         mutationFn: logout,
         retry: 0,
         onSuccess: () => {
+            queryClient.clear();
             dispatch(resetAuth());
         }
     });
