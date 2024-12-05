@@ -9,7 +9,7 @@ export default function ModalComponent ({ mutationObj, formTitle, loadingText, s
 
     const isReadRef = useRef();
     const typeRef = useRef();
-    const { title, author, description, price, imgUrl, isRead,
+    const { title, author, description, price, imgUrl, type, isRead,
         setTitle, setAuthor, setDescription, setPrice, setImgUrl, setIsRead,
         setValues
       } = useFormData();
@@ -58,21 +58,17 @@ export default function ModalComponent ({ mutationObj, formTitle, loadingText, s
                 {!isPending && <>
                     <ModalHeader className="flex flex-col gap-1 font-specialFont font-bold text-xl text-accent">
                       {formTitle}
-                      {isError && 
-                      <p key={error.message} className="text-red-600 text-sm font-specialFont">{error.message}</p>}
-                      {isError && error?.length > 0 && error?.map(er => (
-                        <p key={er.errMessage} className="text-red-600 text-sm font-specialFont">{er.errMessage}</p>
+                      {isError && error?.uniqueErrors && 
+                        error.uniqueErrors?.map(er => (
+                          <p key={er.errMessage} className="text-red-600 text-sm font-specialFont">{er.errMessage}</p>
                       ))}
-                      {/* isError && message?.err && ( message?.msg.map(e => (
-                            
-                      )) /*&&*/ /*setIsDismissable(true)}*/}
                     </ModalHeader>
                     <ModalBody>
                       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                           <Input size='lg' label="Title" name='title' value={title} onChange={(e) => setTitle(e.target.value)} className="text-accent" variant='flat' />
                           <Input size='lg' label="Author" name='author' value={author} onChange={(e) => setAuthor(e.target.value)} className="text-accent" variant='flat' />
                           <Input size='lg' label="Description" name='description' onChange={(e) => setDescription(e.target.value)} value={description}  />
-                          <Select ref={typeRef} label="Select type" defaultSelectedKeys={['possesion']}>
+                          <Select ref={typeRef} label="Select type" value={type} defaultSelectedKeys={[type]} required>
                             <SelectItem  key={'possesion'} value={'possesion'}>Possesion</SelectItem>
                             <SelectItem key={'wishlist'} value={'wishlist'}>Wishlist</SelectItem>
                           </Select>
@@ -93,7 +89,6 @@ export default function ModalComponent ({ mutationObj, formTitle, loadingText, s
                       </form>
                     </ModalBody>
                 </>}
-              
             </>
           )}
         </ModalContent>

@@ -11,7 +11,7 @@ export default function BookDetails ({ book }) {
 
     const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
-    const {  _id ,title, author, imgUrl, description, price, personalRating, isRead } = book;
+    const {  _id ,title, author, imgUrl, description, price, type, isRead } = book;
     
     const { setValues } = useFormData();
 
@@ -58,7 +58,6 @@ export default function BookDetails ({ book }) {
                 <p className='text-lg'>{description}</p>
                 <div className='flex gap-2 mt-4 align-middle items-center'>
                     <p className='my-auto text-xl font-semibold font-specialFont'>{price}€</p>
-                    <p className=''>{personalRating}⭐</p>
                     <div className='ml-2 flex gap-2'>
                         <Button onClick={() => {
                             setValues({
@@ -66,7 +65,7 @@ export default function BookDetails ({ book }) {
                                 author,
                                 description,
                                 imgUrl,
-                                personalRating,
+                                type,
                                 price,
                                 isRead
                             })
@@ -78,6 +77,6 @@ export default function BookDetails ({ book }) {
             </motion.div>
         </>}
 
-        <UpdateBook startingValues={{ id: _id, title, author, imgUrl, description, price, personalRating, isRead}} isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange} />
+        <UpdateBook startingValues={{ _id: _id, title, author, imgUrl, description, price, type, isRead}} isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange} />
     </div>
 }

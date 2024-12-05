@@ -10,7 +10,9 @@ export async function fetchBooks(signal) {
         signal
     });
     if (!res.ok) {
-        throw new Error('Could not load books.')
+        const message = await res.json();
+        console.log(message);
+        throw message;
     }
     const data = await res.json();
     return data;
@@ -25,9 +27,7 @@ export async function fetchBook(signal, id) {
     });
     if (!res.ok) {
         //error message
-        const { message } = await res.json();
-
-        throw new Error(message)
+        throw {message: 'Could not load book'}
     }
     const data = await res.json();
     return data;
@@ -64,7 +64,7 @@ export async function deleteBook(bookId) {
     if (!res.ok) {
         throw await res.json();
     }
-    return await res.json();
+        return await res.json();
 }
 
 export async function updateBook(id, updatedBook) {
@@ -174,3 +174,25 @@ export async function logout () {
     const user = await res.json();
     return user;
 }
+
+export async function deleteAccount (signal) {
+    let url = 'http://localhost:5000/delete/me';
+
+    const res = await fetch(url, { 
+        signal,
+        method: "DELETE",
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!res.ok) {
+        const message = await res.json();
+        throw message;
+    }
+    const message = await res.json();
+    return message;
+}
+
+

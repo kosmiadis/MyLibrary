@@ -18,14 +18,16 @@ export default function BooksList ({ type }) {
     useEffect(() => {
         if (books) {
             setDisplayedBooks(() => {
-            const filteredBooks = [...books].filter(book => book.type === type);
-            return filteredBooks
-        })
+                const filteredBooks = [...books].filter(book => {
+                    return book.type === type
+                });
+                return filteredBooks
+            })
     }}, [books])
    
     
     return <>
-            { displayedBooks && <Search type={type} books={books} setBooks={setDisplayedBooks} /> /* filters for searching books by author, title etc...*/}
+            {books && <Search type={type} books={books} setBooks={setDisplayedBooks} /> /* filters for searching books by author, title etc...*/}
             { isPending && <LoadindIndicator text='Loading Books'/>}
         <motion.ul 
             variants={booksListVariants}
@@ -33,9 +35,9 @@ export default function BooksList ({ type }) {
             animate={'show'}
             className='flex flex-wrap justify-center gap-[50px] max-w-[1250px] m-auto'
         >   
-            { isError && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">{error.message}</p>}
-            { !isPending && displayedBooks?.length === 0 && <p className='m-auto text-lg font-semibold font-specialFont'>There are no books!</p>}
-            { !isPending && displayedBooks?.length > 0 && displayedBooks?.map(book => (
+            { isError && <p className="m-auto text-lg text-red-600 font-bold font-specialFont">{error?.message || 'Could not load books!'}</p>}
+            { !isError && !isPending && displayedBooks?.length === 0 && <p className='m-auto text-lg font-semibold font-specialFont'>There are no books!</p>}
+            { !isError && !isPending && displayedBooks?.length > 0 && displayedBooks?.map(book => (
                 <motion.li key={book._id} variants={bookVariants}>
                     <Book book={book}/>
                 </motion.li>

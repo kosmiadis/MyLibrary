@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { fetchBooks } from "../http/http";
+import { fetchBooks, queryClient } from "../http/http";
 import { useQuery } from "@tanstack/react-query";
 
 export function useFetchBooks() {
@@ -10,8 +10,12 @@ export function useFetchBooks() {
         queryKey: ['books'],
         queryFn: ({ signal }) => fetchBooks(signal),
         retry: 0,
+        onError: () => {
+            queryClient.clear();
+        },
         /*Fetches books only when the user is authenticated. */
-        enabled: isAuthorized 
+        enabled: isAuthorized,
     });
+
     return { data, isPending, isError, error };
 }
